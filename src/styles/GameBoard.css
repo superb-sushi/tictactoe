@@ -1,0 +1,66 @@
+#box-1 {
+    border: solid white;
+    border-width: 0 2.5px 2.5px 0;
+}
+
+#box-2 {
+    border: solid white;
+    border-width: 0 2.5px 2.5px 2.5px;
+}
+
+#box-3 {
+    border: solid white;
+    border-width: 0 0 2.5px 2.5px;
+}
+
+#box-4 {
+    border: solid white;
+    border-width: 2.5px 2.5px 2.5px 0;
+}
+
+#box-5 {
+    border: solid white;
+    border-width: 2.5px 2.5px 2.5px 2.5px;
+}
+
+#box-6 {
+    border: solid white;
+    border-width: 2.5px 0 2.5px 2.5px;
+}
+
+#box-7 {
+    border: solid white;
+    border-width: 2.5px 2.5px 0 0;
+}
+
+#box-8 {
+    border: solid white;
+    border-width: 2.5px 2.5px 0 2.5px;
+}
+
+#box-9 {
+    border: solid white;
+    border-width: 2.5px 0 0 2.5px;
+}
+
+.B-box {
+    background-color: rgb(28 25 23); /* stone-900 */
+    border: solid white;
+}
+
+.A-box {
+    background-color: rgb(245 245 244); /* stone-100 */
+    border: solid black;
+}
+
+.B-box:hover {
+    background-color: rgb(41 37 36);
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+.A-box:hover {
+    background-color: rgb(231 229 228);
+    transition-duration: 0.25s;
+    cursor: pointer;
+}
