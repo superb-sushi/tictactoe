@@ -33,7 +33,7 @@ const GameBoard = ({playerRole, setPlayerRole, activePlayer, setActivePlayer}: {
         if (!gameEnd) {
             // Player's Turn
             if (boardState.update_board(r, c, playerRole) == 0) {
-                setActivePlayer(activePlayer == 1 ? 2 : 1)
+                setActivePlayer(activePlayer + 1)
                 setBoardState(boardState);
                 if (boardState.check_winner() == 1) {
                     console.log("X wins!")
@@ -56,6 +56,7 @@ const GameBoard = ({playerRole, setPlayerRole, activePlayer, setActivePlayer}: {
             // AI's turn - vary the depth limit using the 3rd parameter
             let boardStateAfterStrategicMove = boardState.minimax(boardState.board, playerRole, 3, true)
             boardState.board = boardStateAfterStrategicMove
+            setActivePlayer(activePlayer + 1)
             setBoardState(boardState);
             if (boardState.check_winner() == 1) {
                 console.log("X wins!")

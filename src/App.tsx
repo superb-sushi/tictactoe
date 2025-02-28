@@ -36,7 +36,7 @@ function App() {
     <>
       <Drawer>
         <div className="h-screen w-screen flex flex-col justify-start items-center relative">
-          <div id="turn-tracker" className={playerRole == 1 ? "fixed top-[4%] font-bold text-lg text-black" : "fixed top-[4%] font-bold text-lg"}>{activePlayer == playerRole ? "Player" : "AI"}'s Turn</div>
+          <div id="turn-tracker" className={playerRole == 1 ? "fixed top-[4%] font-bold text-lg text-black" : "fixed top-[4%] font-bold text-lg"}>Your Turn</div>
           <DrawerTrigger className="fixed bottom-[4%]">
             <Button variant="default" className="cursor-pointer">Power-ups</Button>
           </DrawerTrigger>
