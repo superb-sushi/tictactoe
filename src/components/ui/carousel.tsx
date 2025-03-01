@@ -13,6 +13,9 @@ type CarouselOptions = UseCarouselParameters[0]
 type CarouselPlugin = UseCarouselParameters[1]
 
 type CarouselProps = {
+  setPowerUpIndex: React.Dispatch<React.SetStateAction<number>>,
+  powerUpIndex: number,
+  powerUpsListLength: number,
   opts?: CarouselOptions
   plugins?: CarouselPlugin
   orientation?: "horizontal" | "vertical"
@@ -41,6 +44,9 @@ function useCarousel() {
 }
 
 function Carousel({
+  setPowerUpIndex,
+  powerUpIndex,
+  powerUpsListLength,
   orientation = "horizontal",
   opts,
   setApi,
@@ -54,7 +60,7 @@ function Carousel({
       ...opts,
       axis: orientation === "horizontal" ? "x" : "y",
     },
-    plugins
+    plugins,
   )
   const [canScrollPrev, setCanScrollPrev] = React.useState(false)
   const [canScrollNext, setCanScrollNext] = React.useState(false)
@@ -67,10 +73,12 @@ function Carousel({
 
   const scrollPrev = React.useCallback(() => {
     api?.scrollPrev()
+    setPowerUpIndex(powerUpIndex == 0 ? 0 : powerUpIndex - 1)
   }, [api])
 
   const scrollNext = React.useCallback(() => {
     api?.scrollNext()
+    setPowerUpIndex(powerUpIndex == powerUpsListLength - 1 ? powerUpsListLength - 1 : powerUpIndex + 1)
   }, [api])
 
   const handleKeyDown = React.useCallback(
@@ -105,6 +113,9 @@ function Carousel({
   return (
     <CarouselContext.Provider
       value={{
+        setPowerUpIndex,
+        powerUpIndex,
+        powerUpsListLength,
         carouselRef,
         api: api,
         opts,
@@ -113,7 +124,7 @@ function Carousel({
         scrollPrev,
         scrollNext,
         canScrollPrev,
-        canScrollNext,
+        canScrollNext
       }}
     >
       <div

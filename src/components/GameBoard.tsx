@@ -9,7 +9,7 @@ import ax from "../assets/A-X.png"
 import { Button } from "@/components/ui/button"
 
 
-const GameBoard = ({playerRole, setPlayerRole, activePlayer, setActivePlayer}: {playerRole: number, setPlayerRole: Dispatch<SetStateAction<number>>, activePlayer: number, setActivePlayer: Dispatch<SetStateAction<number>>}) => {
+const GameBoard = ({playerRole, setPlayerRole, activePlayer, setActivePlayer, setPowerUpIndex, setPowerUps, originalPowerUpList}: {playerRole: number, setPlayerRole: Dispatch<SetStateAction<number>>, activePlayer: number, setActivePlayer: Dispatch<SetStateAction<number>>, setPowerUpIndex: Dispatch<SetStateAction<number>>, setPowerUps: Dispatch<SetStateAction<Array<Array<string | boolean>>>>, originalPowerUpList: Array<Array<string | boolean>>}) => {
 
     const [boardState, setBoardState] = useState<BoardState>(new BoardState([[0, 0, 0], [0, 0, 0], [0, 0, 0]]));
 
@@ -23,40 +23,40 @@ const GameBoard = ({playerRole, setPlayerRole, activePlayer, setActivePlayer}: {
         setGameEnd(false)
         setWinner(0)
         setPlayerRole(1)
+        setPowerUpIndex(0)
+        setPowerUps(originalPowerUpList)
     }
 
     useEffect(() => {
         setBoardState(boardState)
     }, [activePlayer])
 
-    const handleClick = (r: number, c: number) => {
-        if (!gameEnd) {
-            // Player's Turn
-            if (boardState.update_board(r, c, playerRole) == 0) {
-                setActivePlayer(activePlayer + 1)
-                setBoardState(boardState);
-                if (boardState.check_winner() == 1) {
-                    console.log("X wins!")
-                    setWinner(1)
-                    setGameEnd(true)
-                    return;
-                } else if (boardState.check_winner() == 2) {
-                    console.log("O wins!")
-                    setWinner(2)
-                    setGameEnd(true)
-                    return;
-                } else {
-                    if (boardState.check_left_board_space() == 0) {
-                        console.log("Its a draw!")
-                        setGameEnd(true)
-                        return;
-                    }
-                }
-            
-            // AI's turn - vary the depth limit using the 3rd parameter
-            let boardStateAfterStrategicMove = boardState.minimax(boardState.board, playerRole, 3, true)
+
+    const executePlayerTurn = () => {
+        setBoardState(boardState);
+        if (boardState.check_winner() == 1) {
+            console.log("X wins!")
+            setWinner(1)
+            setGameEnd(true)
+            return;
+        } else if (boardState.check_winner() == 2) {
+            console.log("O wins!")
+            setWinner(2)
+            setGameEnd(true)
+            return;
+        } else {
+            if (boardState.check_left_board_space() == 0) {
+                console.log("Its a draw!")
+                setGameEnd(true)
+                return;
+            }
+        }
+    }
+
+    const executeAiTurn = () => {
+        let boardStateAfterStrategicMove = boardState.minimax(boardState.board, playerRole, 3, true)
             boardState.board = boardStateAfterStrategicMove
-            setActivePlayer(activePlayer + 1)
+            setActivePlayer(activePlayer + 1) //needed for display of pieces properly
             setBoardState(boardState);
             if (boardState.check_winner() == 1) {
                 console.log("X wins!")
@@ -75,7 +75,23 @@ const GameBoard = ({playerRole, setPlayerRole, activePlayer, setActivePlayer}: {
                     return;
                 }
             }
+    }
+
+    useEffect(() => {
+        if (playerRole == 2) {
+            executeAiTurn();
         }
+    }, [playerRole])
+
+    const handleClick = (r: number, c: number) => {
+        if (!gameEnd) {
+            // Player's Turn
+            if (boardState.update_board(r, c, playerRole) == 0) {
+                executePlayerTurn();
+            
+                // AI's turn - vary the depth limit using the 3rd parameter
+                executeAiTurn();
+            }
         } else {
             console.log("Game has already ended!")
         }
