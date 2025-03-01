@@ -122,7 +122,7 @@ export class BoardState {
         let nextPossibleStates = this.generate_next_possible_states(boardState, playerRole)
         for (let i = 0; i < nextPossibleStates.length; i++) {
             let min = this.min_value(nextPossibleStates[i], playerRole, depth + 1, depthLimit);
-            console.log("MAX:", min, nextPossibleStates[i])
+            if (depth == 0) console.log("#", i, "MAX:", min, nextPossibleStates[i])
             if (min > v) {
                 v = min
                 if (depth == 0) this.bestMoveForPlayer = nextPossibleStates[i]
@@ -139,10 +139,14 @@ export class BoardState {
         let nextPossibleStates = this.generate_next_possible_states(boardState, playerRole == 1 ? 2 : 1)
         for (let i = 0; i < nextPossibleStates.length; i++) {
             let max = this.max_value(nextPossibleStates[i], playerRole, depth + 1, depthLimit);
-            console.log("MIN:", max, nextPossibleStates[i])
+            if (depth == 0) console.log("#", i, "MIN:", max, nextPossibleStates[i])
+            // console.log(v)
             if (max < v) {
                 v = max
-                if (depth == 0) this.worstMoveForPlayer = nextPossibleStates[i]
+                if (depth == 0) {
+                    this.worstMoveForPlayer = nextPossibleStates[i]
+                    // console.log("Min Picked:", this.worstMoveForPlayer, "Value:", v)
+                }
             }
         }
         return v

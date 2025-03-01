@@ -54,7 +54,7 @@ const GameBoard = ({playerRole, setPlayerRole, activePlayer, setActivePlayer, se
     }
 
     const executeAiTurn = () => {
-        let boardStateAfterStrategicMove = boardState.minimax(boardState.board, playerRole, 3, true)
+        let boardStateAfterStrategicMove = boardState.minimax(boardState.board, playerRole, 2, true)
             boardState.board = boardStateAfterStrategicMove
             setActivePlayer(activePlayer + 1) //needed for display of pieces properly
             setBoardState(boardState);
