@@ -22,13 +22,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 
-import undo from "./assets/undo.png"
+import hint from "./assets/hint.png"
 import swap from "./assets/swap.png"
 
 
 function App() {
 
-  const powerUpList = [[swap, false], [undo, false]]
+  const powerUpList = [[swap, false], [hint, false]]
 
   const [activePlayer, setActivePlayer] = useState<number>(1);
   
@@ -38,14 +38,21 @@ function App() {
 
   const [powerUpIndex, setPowerUpIndex] = useState<number>(0);
 
+  const [useHint, setUseHint] = useState<boolean>(false);
+
   useEffect(() => {
     setPowerUps(powerUpList);
+    setUseHint(false);
   }, [])
 
   const handleUsePowerUp = (index: number) => {
     if (powerUps[index][0] == swap) {
+      console.log("Selected: Swap!")
       setPlayerRole(2);
       setActivePlayer(1);
+    } else if (powerUps[index][0] == hint) {
+      console.log("Selected: Hint!")
+      setUseHint(true);
     }
     powerUps[index][1] = true;
     setPowerUps(powerUps)
@@ -59,7 +66,7 @@ function App() {
           <DrawerTrigger className="fixed bottom-[4%]">
             <Button variant="default" className="cursor-pointer">Power-ups</Button>
           </DrawerTrigger>
-          <div className={(playerRole == 2) ? "grow h-full w-full flex justify-center items-center bg-stone-900" : "grow h-full w-full flex justify-center items-center bg-stone-100"}><GameBoard playerRole={playerRole} setPlayerRole={setPlayerRole} activePlayer={activePlayer} setActivePlayer={setActivePlayer} setPowerUpIndex={setPowerUpIndex} setPowerUps={setPowerUps} originalPowerUpList={powerUpList}/></div>
+          <div className={(playerRole == 2) ? "grow h-full w-full flex justify-center items-center bg-stone-900" : "grow h-full w-full flex justify-center items-center bg-stone-100"}><GameBoard playerRole={playerRole} setPlayerRole={setPlayerRole} activePlayer={activePlayer} setActivePlayer={setActivePlayer} setPowerUpIndex={setPowerUpIndex} setPowerUps={setPowerUps} originalPowerUpList={powerUpList} useHint={useHint} setUseHint={setUseHint}/></div>
         </div>
         <DrawerContent className="flex flex-col bg-stone-600 h-[450px] justify-center items-center">
           <DrawerHeader className="flex w-[20%]">
